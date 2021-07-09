@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM ubuntu:20.04
 
 # To make it easier for build and release pipelines to run apt-get,
 # configure apt to not require confirmation (assume the -y argument by default)
@@ -15,7 +15,6 @@ RUN apt-get update \
         iputils-ping \
         jq \
         libcurl4 \
-        libicu60 \
         libssl1.0 \
         libunwind8 \
         lsb-release \
@@ -28,12 +27,12 @@ RUN apt-get update \
 && echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ $AZ_REPO main" | \
     tee /etc/apt/sources.list.d/azure-cli.list \
 && apt-get update \
-&& apt-get install -y --no-install-recommends azure-cli \
-# Install Kubectl
-&& curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg \
-&& echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | \
-    tee /etc/apt/sources.list.d/kubernetes.list \
-&& apt-get update && apt-get install -y --no-install-recommends kubectl
+&& apt-get install -y --no-install-recommends azure-cli
+# # Install Kubectl
+# && curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg \
+# && echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | \
+#     tee /etc/apt/sources.list.d/kubernetes.list \
+# && apt-get update && apt-get install -y --no-install-recommends kubectl
 
 WORKDIR /azp
 
