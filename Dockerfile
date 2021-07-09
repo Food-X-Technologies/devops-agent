@@ -27,12 +27,12 @@ RUN apt-get update \
 && echo "deb [arch=amd64] https://packages.microsoft.com/repos/azure-cli/ $AZ_REPO main" | \
     tee /etc/apt/sources.list.d/azure-cli.list \
 && apt-get update \
-&& apt-get install -y --no-install-recommends azure-cli
-# # Install Kubectl
-# && curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg \
-# && echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | \
-#     tee /etc/apt/sources.list.d/kubernetes.list \
-# && apt-get update && apt-get install -y --no-install-recommends kubectl
+&& apt-get install -y --no-install-recommends azure-cli \
+# Install Kubectl
+&& curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg \
+&& echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | \
+    tee /etc/apt/sources.list.d/kubernetes.list \
+&& apt-get update && apt-get install -y --no-install-recommends kubectl
 
 WORKDIR /azp
 
