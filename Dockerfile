@@ -21,8 +21,9 @@ RUN apt-get update \
         netcat \
 # Install .NETCore runtime dependency for the agent
 # See details of this here: https://github.com/dotnet/core/issues/4360#issuecomment-618784475
-&& curl -fsSLo libicu67_67.1-6ubuntu2_amd64.deb https://mirrors.edge.kernel.org/ubuntu/pool/main/i/icu/libicu67_67.1-6ubuntu2_amd64.deb \
-&& dpkg -i libicu67_67.1-6ubuntu2_amd64.deb \
+&& LIBICU_FILE="libicu66_66.1-2ubuntu2_amd64.deb" \
+&& curl -fsSLo ${LIBICU_FILE} https://mirrors.edge.kernel.org/ubuntu/pool/main/i/icu/${LIBICU_FILE} \
+&& dpkg -i ${LIBICU_FILE} \
 # Install Azure CLI
 && curl -sL https://packages.microsoft.com/keys/microsoft.asc | \
     gpg --dearmor | \
