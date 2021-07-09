@@ -8,15 +8,16 @@ RUN echo "APT::Get::Assume-Yes \"true\";" > /etc/apt/apt.conf.d/90assumeyes
 RUN apt-get update \
 && apt-get install -y --no-install-recommends \
         ca-certificates \
+        azure-cli \
         curl \
-        jq \
         git \
         iputils-ping \
+        jq \
         libcurl4 \
         libicu60 \
+        libssl1.0 \
         libunwind8 \
-        netcat \
-        libssl1.0
+        netcat
 
 WORKDIR /azp
 
