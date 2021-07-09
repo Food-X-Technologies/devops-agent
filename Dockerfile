@@ -19,6 +19,11 @@ RUN apt-get update \
         libunwind8 \
         lsb-release \
         netcat \
+# Install .NETCore runtime for the agent
+&& wget https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb \
+&& dpkg -i packages-microsoft-prod.deb \
+&& apt update \
+&& apt install dotnet-runtime-3.1 \
 # Install Azure CLI
 && curl -sL https://packages.microsoft.com/keys/microsoft.asc | \
     gpg --dearmor | \
