@@ -19,6 +19,8 @@ RUN apt-get update \
         libunwind8 \
         lsb-release \
         netcat \
+        nodejs=10.19.\* \
+        npm=6.14.\* \
         tzdata \
 # Install .NETCore runtime dependency for the agent
 # See details of this here: https://github.com/dotnet/core/issues/4360#issuecomment-618784475
