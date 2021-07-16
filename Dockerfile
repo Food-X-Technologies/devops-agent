@@ -33,6 +33,10 @@ RUN apt-get update \
 && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF \
 && apt-add-repository 'deb https://download.mono-project.com/repo/ubuntu stable-focal main' \
 && apt install -y --no-install-recommends mono-complete=6.12.\* \
+# Install Chrome
+&& curl -LO https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
+&& apt-get install -y ./google-chrome-stable_current_amd64.deb \
+&& rm google-chrome-stable_current_amd64.deb \
 # Install Azure CLI
 && curl -sL https://packages.microsoft.com/keys/microsoft.asc | \
     gpg --dearmor | \
