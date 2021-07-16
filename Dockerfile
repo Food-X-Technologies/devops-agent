@@ -33,6 +33,12 @@ RUN apt-get update \
 && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF \
 && apt-add-repository 'deb https://download.mono-project.com/repo/ubuntu stable-focal main' \
 && apt install -y --no-install-recommends mono-complete=6.12.\* \
+# Install .NET 5
+&& curl -fsSLo packages-microsoft-prod.deb https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb \
+&& dpkg -i packages-microsoft-prod.deb \
+&& apt-get update \
+&& apt-get install -y dotnet-sdk-5.0 \
+&& rm packages-microsoft-prod.deb \
 # Install Chrome
 && curl -LO https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb \
 && apt-get install -y ./google-chrome-stable_current_amd64.deb \
