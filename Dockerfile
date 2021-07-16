@@ -7,6 +7,8 @@ RUN echo "APT::Get::Assume-Yes \"true\";" > /etc/apt/apt.conf.d/90assumeyes
 
 RUN apt-get update \
 && apt-get install -y --no-install-recommends \
+        dirmngr \
+        software-properties-common \
         apt-transport-https \
         ca-certificates \
         curl \
@@ -27,6 +29,10 @@ RUN apt-get update \
 && LIBICU_FILE="libicu66_66.1-2ubuntu2_amd64.deb" \
 && curl -fsSLo ${LIBICU_FILE} https://mirrors.edge.kernel.org/ubuntu/pool/main/i/icu/${LIBICU_FILE} \
 && dpkg -i ${LIBICU_FILE} \
+# Install Mono
+&& apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF \
+&& apt-add-repository 'deb https://download.mono-project.com/repo/ubuntu stable-focal main' \
+&& apt install -y --no-install-recommends mono-complete=6.12.\* \
 # Install Azure CLI
 && curl -sL https://packages.microsoft.com/keys/microsoft.asc | \
     gpg --dearmor | \
