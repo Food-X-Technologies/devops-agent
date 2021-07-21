@@ -5,26 +5,25 @@ FROM ubuntu:20.04
 ENV DEBIAN_FRONTEND=noninteractive
 RUN echo "APT::Get::Assume-Yes \"true\";" > /etc/apt/apt.conf.d/90assumeyes
 
-RUN set -o pipefail && apt-get update \
-&& apt-get install -y --no-install-recommends \
-        dirmngr \
-        software-properties-common \
-        apt-transport-https \
-        ca-certificates \
-        curl \
-        git \
-        gnupg \
-        iputils-ping \
-        jq \
-        libcurl4 \
-        libssl1.0 \
-        libunwind8 \
-        lsb-release \
-        netcat \
-        nodejs=10.19.\* \
-        npm=6.14.\* \
-        tzdata \
-        zip \
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    dirmngr \
+    software-properties-common \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    git \
+    gnupg \
+    iputils-ping \
+    jq \
+    libcurl4 \
+    libssl1.0 \
+    libunwind8 \
+    lsb-release \
+    netcat \
+    nodejs=10.19.\* \
+    npm=6.14.\* \
+    tzdata \
+    zip \
 # Install .NETCore runtime dependency for the agent
 # See details of this here: https://github.com/dotnet/core/issues/4360#issuecomment-618784475
 && LIBICU_FILE="libicu66_66.1-2ubuntu2_amd64.deb" \
