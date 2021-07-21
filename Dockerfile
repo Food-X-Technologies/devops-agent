@@ -6,11 +6,10 @@ ENV DEBIAN_FRONTEND=noninteractive
 RUN echo "APT::Get::Assume-Yes \"true\";" > /etc/apt/apt.conf.d/90assumeyes
 
 RUN apt-get update && apt-get install -y --no-install-recommends \
-    dirmngr \
-    software-properties-common \
     apt-transport-https \
     ca-certificates \
     curl \
+    dirmngr \
     git \
     gnupg \
     iputils-ping \
@@ -22,6 +21,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     netcat \
     nodejs=10.19.\* \
     npm=6.14.\* \
+    python3 \
+    python3-pip \
+    python3-venv \
+    software-properties-common \
     tzdata \
     zip \
 # Install .NETCore runtime dependency for the agent
