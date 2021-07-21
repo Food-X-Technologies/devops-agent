@@ -24,6 +24,7 @@ RUN apt-get update \
         nodejs=10.19.\* \
         npm=6.14.\* \
         tzdata \
+        zip \
 # Install .NETCore runtime dependency for the agent
 # See details of this here: https://github.com/dotnet/core/issues/4360#issuecomment-618784475
 && LIBICU_FILE="libicu66_66.1-2ubuntu2_amd64.deb" \
