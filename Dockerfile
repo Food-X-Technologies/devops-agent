@@ -57,7 +57,15 @@ RUN apt-get update \
 && curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg \
 && echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | \
     tee /etc/apt/sources.list.d/kubernetes.list \
-&& apt-get update && apt-get install -y --no-install-recommends kubectl
+&& apt-get update && apt-get install -y --no-install-recommends kubectl \
+# Install Vault CLI
+&& curl -fsSL https://apt.releases.hashicorp.com/gpg | apt-key add - \
+&& apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main" \
+&& apt update && apt install -y vault \
+# Give Vault the ability to use the mlock syscall without running the process as root. The mlock syscall prevents memory from being swapped to disk.
+# Explanation: https://github.com/hashicorp/vault/issues/10048#issuecomment-700779263
+&& setcap cap_ipc_lock= /usr/bin/vault
+
 
 WORKDIR /azp
 
