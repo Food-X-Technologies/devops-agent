@@ -10,15 +10,20 @@ on:
     branches:
       - "main"
 jobs:
-  docker:
+  lint:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-
       - uses: hadolint/hadolint-action@v1.5.0
         with:
           dockerfile: Dockerfile
+
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
 
       - name: Docker meta
         id: meta
