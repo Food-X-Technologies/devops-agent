@@ -33,7 +33,7 @@ RUN apt-get update \
 # Install Mono
 && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF \
 && apt-add-repository 'deb https://download.mono-project.com/repo/ubuntu stable-focal main' \
-&& apt install -y --no-install-recommends mono-complete=6.12.\* \
+&& apt-get install -y --no-install-recommends mono-complete=6.12.\* \
 # Install .NET 5 and 3.1
 && curl -fsSLo packages-microsoft-prod.deb https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb \
 && dpkg -i packages-microsoft-prod.deb \
@@ -46,6 +46,7 @@ RUN apt-get update \
 && apt-get install -y ./google-chrome-stable_current_amd64.deb \
 && rm google-chrome-stable_current_amd64.deb \
 # Install Azure CLI
+&& set -o pipefail \
 && curl -sL https://packages.microsoft.com/keys/microsoft.asc | \
     gpg --dearmor | \
     tee /etc/apt/trusted.gpg.d/microsoft.gpg > /dev/null \
@@ -62,7 +63,7 @@ RUN apt-get update \
 # Install Vault CLI
 && curl -fsSL https://apt.releases.hashicorp.com/gpg | apt-key add - \
 && apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main" \
-&& apt update && apt install -y vault \
+&& apt-get update && apt-get install -y vault \
 # Give Vault the ability to use the mlock syscall without running the process as root. The mlock syscall prevents memory from being swapped to disk.
 # Explanation: https://github.com/hashicorp/vault/issues/10048#issuecomment-700779263
 && setcap cap_ipc_lock= /usr/bin/vault
