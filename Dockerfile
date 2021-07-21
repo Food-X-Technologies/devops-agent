@@ -5,25 +5,25 @@ FROM ubuntu:20.04
 ENV DEBIAN_FRONTEND=noninteractive
 RUN echo "APT::Get::Assume-Yes \"true\";" > /etc/apt/apt.conf.d/90assumeyes
 
-RUN apt-get update \
-&& apt-get install -y --no-install-recommends \
-        dirmngr \
-        software-properties-common \
-        apt-transport-https \
-        ca-certificates \
-        curl \
-        git \
-        gnupg \
-        iputils-ping \
-        jq \
-        libcurl4 \
-        libssl1.0 \
-        libunwind8 \
-        lsb-release \
-        netcat \
-        nodejs=10.19.\* \
-        npm=6.14.\* \
-        tzdata \
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    dirmngr \
+    software-properties-common \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    git \
+    gnupg \
+    iputils-ping \
+    jq \
+    libcurl4 \
+    libssl1.0 \
+    libunwind8 \
+    lsb-release \
+    netcat \
+    nodejs=10.19.\* \
+    npm=6.14.\* \
+    tzdata \
+    zip \
 # Install .NETCore runtime dependency for the agent
 # See details of this here: https://github.com/dotnet/core/issues/4360#issuecomment-618784475
 && LIBICU_FILE="libicu66_66.1-2ubuntu2_amd64.deb" \
@@ -32,7 +32,7 @@ RUN apt-get update \
 # Install Mono
 && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF \
 && apt-add-repository 'deb https://download.mono-project.com/repo/ubuntu stable-focal main' \
-&& apt install -y --no-install-recommends mono-complete=6.12.\* \
+&& apt-get install -y --no-install-recommends mono-complete=6.12.\* \
 # Install .NET 5 and 3.1
 && curl -fsSLo packages-microsoft-prod.deb https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb \
 && dpkg -i packages-microsoft-prod.deb \
@@ -57,7 +57,14 @@ RUN apt-get update \
 && curl -fsSLo /usr/share/keyrings/kubernetes-archive-keyring.gpg https://packages.cloud.google.com/apt/doc/apt-key.gpg \
 && echo "deb [signed-by=/usr/share/keyrings/kubernetes-archive-keyring.gpg] https://apt.kubernetes.io/ kubernetes-xenial main" | \
     tee /etc/apt/sources.list.d/kubernetes.list \
-&& apt-get update && apt-get install -y --no-install-recommends kubectl
+&& apt-get update && apt-get install -y --no-install-recommends kubectl \
+# Install Vault CLI
+&& curl -fsSL https://apt.releases.hashicorp.com/gpg | apt-key add - \
+&& apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main" \
+&& apt-get update && apt-get install -y vault \
+# Give Vault the ability to use the mlock syscall without running the process as root. The mlock syscall prevents memory from being swapped to disk.
+# Explanation: https://github.com/hashicorp/vault/issues/10048#issuecomment-700779263
+&& setcap cap_ipc_lock= /usr/bin/vault
 
 WORKDIR /azp
 
