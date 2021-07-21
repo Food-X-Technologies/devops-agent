@@ -5,7 +5,7 @@ FROM ubuntu:20.04
 ENV DEBIAN_FRONTEND=noninteractive
 RUN echo "APT::Get::Assume-Yes \"true\";" > /etc/apt/apt.conf.d/90assumeyes
 
-RUN apt-get update \
+RUN set -o pipefail && apt-get update \
 && apt-get install -y --no-install-recommends \
         dirmngr \
         software-properties-common \
@@ -46,7 +46,6 @@ RUN apt-get update \
 && apt-get install -y ./google-chrome-stable_current_amd64.deb \
 && rm google-chrome-stable_current_amd64.deb \
 # Install Azure CLI
-&& set -o pipefail \
 && curl -sL https://packages.microsoft.com/keys/microsoft.asc | \
     gpg --dearmor | \
     tee /etc/apt/trusted.gpg.d/microsoft.gpg > /dev/null \
