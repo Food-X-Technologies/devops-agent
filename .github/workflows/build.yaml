@@ -10,14 +10,15 @@ on:
     branches:
       - "main"
 jobs:
-  lint:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-      - uses: hadolint/hadolint-action@v1.5.0
-        with:
-          dockerfile: Dockerfile
+  # TODO: Re-enable when we have the time to pin all apt package versions
+  # lint:
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Checkout
+  #       uses: actions/checkout@v2
+  #     - uses: hadolint/hadolint-action@v1.5.0
+  #       with:
+  #         dockerfile: Dockerfile
 
   build-and-push:
     runs-on: ubuntu-latest

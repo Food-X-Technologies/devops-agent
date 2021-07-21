@@ -67,7 +67,6 @@ RUN set -o pipefail && apt-get update \
 # Explanation: https://github.com/hashicorp/vault/issues/10048#issuecomment-700779263
 && setcap cap_ipc_lock= /usr/bin/vault
 
-
 WORKDIR /azp
 
 COPY ./start.sh .
