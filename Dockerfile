@@ -67,7 +67,16 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 && apt-get update && apt-get install -y vault \
 # Give Vault the ability to use the mlock syscall without running the process as root. The mlock syscall prevents memory from being swapped to disk.
 # Explanation: https://github.com/hashicorp/vault/issues/10048#issuecomment-700779263
-&& setcap cap_ipc_lock= /usr/bin/vault
+&& setcap cap_ipc_lock= /usr/bin/vault \
+# Install Docker CLI
+&& curl -fsSL https://download.docker.com/linux/ubuntu/gpg | gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg \
+&& echo \
+  "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | tee /etc/apt/sources.list.d/docker.list > /dev/null \
+&& apt-get update \
+&& apt-get install -y --no-install-recommends \
+    docker-ce=5:20.10.\* \
+    docker-ce-cli=5:20.10.\*
 
 WORKDIR /azp
 
