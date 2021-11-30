@@ -64,7 +64,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Install Vault CLI
 && curl -fsSL https://apt.releases.hashicorp.com/gpg | apt-key add - \
 && apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main" \
-&& apt-get update && apt-get install -y vault \
+&& apt-get update && apt-get install -y vault=1.9.\* \
 # Give Vault the ability to use the mlock syscall without running the process as root. The mlock syscall prevents memory from being swapped to disk.
 # Explanation: https://github.com/hashicorp/vault/issues/10048#issuecomment-700779263
 && setcap cap_ipc_lock= /usr/bin/vault \
