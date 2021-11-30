@@ -27,6 +27,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     software-properties-common \
     tzdata \
     zip \
+# EGMS deployments use Ansible Vault
+&& pip install ansible==5.0.0 \
 # Install .NETCore runtime dependency for the agent
 # See details of this here: https://github.com/dotnet/core/issues/4360#issuecomment-618784475
 && LIBICU_FILE="libicu66_66.1-2ubuntu2_amd64.deb" \
@@ -65,6 +67,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 && curl -fsSL https://apt.releases.hashicorp.com/gpg | apt-key add - \
 && apt-add-repository "deb [arch=amd64] https://apt.releases.hashicorp.com $(lsb_release -cs) main" \
 && apt-get update && apt-get install -y vault=1.9.\* \
+# Install Trivy
+&& apt-get install wget apt-transport-https gnupg lsb-release \
+&& wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | apt-key add - \
+&& echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | tee -a /etc/apt/sources.list.d/trivy.list \
+&& apt-get update && apt-get install trivy=0.21.\* \
 # Give Vault the ability to use the mlock syscall without running the process as root. The mlock syscall prevents memory from being swapped to disk.
 # Explanation: https://github.com/hashicorp/vault/issues/10048#issuecomment-700779263
 && setcap cap_ipc_lock= /usr/bin/vault \
