@@ -19,16 +19,22 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libunwind8 \
     lsb-release \
     netcat \
-    nodejs=10.19.\* \
-    npm=6.14.\* \
     python3 \
     python3-pip \
     python3-venv \
     software-properties-common \
     tzdata \
     zip \
-# EGMS deployments use Ansible Vault
-&& pip install ansible==5.0.0 \
+    unzip \
+# Install NodeJS 16.x and NPM 8.x
+&& curl -fsSL https://deb.nodesource.com/setup_16.x | bash - \
+&& apt-get install -y nodejs=16.\* \
+# Preinstall components for EGMS deployments
+&& python3 -m venv /ado-venv \
+# Make this the default venv for root
+&& echo "source /ado-venv/bin/activate" >> ~root/.bashrc \
+&& pip install wheel \
+&& pip install ansible==5.2.0 foodx-devops-tools==0.12.1 \
 # Install .NETCore runtime dependency for the agent
 # See details of this here: https://github.com/dotnet/core/issues/4360#issuecomment-618784475
 && LIBICU_FILE="libicu66_66.1-2ubuntu2_amd64.deb" \
@@ -38,10 +44,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF \
 && apt-add-repository 'deb https://download.mono-project.com/repo/ubuntu stable-focal main' \
 && apt-get install -y --no-install-recommends mono-complete=6.12.\* \
-# Install .NET 5 and 3.1
+# Install .NET 5, 6 and 3.1
 && curl -fsSLo packages-microsoft-prod.deb https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb \
 && dpkg -i packages-microsoft-prod.deb \
 && apt-get update \
+&& apt-get install -y dotnet-sdk-6.0 \
 && apt-get install -y dotnet-sdk-5.0 \
 && apt-get install -y dotnet-sdk-3.1 \
 && rm packages-microsoft-prod.deb \
@@ -71,7 +78,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 && apt-get install wget apt-transport-https gnupg lsb-release \
 && wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | apt-key add - \
 && echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | tee -a /etc/apt/sources.list.d/trivy.list \
-&& apt-get update && apt-get install trivy=0.21.\* \
+&& apt-get update && apt-get install trivy=0.22.\* \
 # Give Vault the ability to use the mlock syscall without running the process as root. The mlock syscall prevents memory from being swapped to disk.
 # Explanation: https://github.com/hashicorp/vault/issues/10048#issuecomment-700779263
 && setcap cap_ipc_lock= /usr/bin/vault \
