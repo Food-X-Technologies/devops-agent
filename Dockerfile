@@ -29,8 +29,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 # Install NodeJS 16.x and NPM 8.x
 && curl -fsSL https://deb.nodesource.com/setup_16.x | bash - \
 && apt-get install -y nodejs=16.\* \
-# EGMS deployments Ansible Vault
-&& pip install ansible==5.2.0 \
+# Preinstall components for EGMS deployments
+&& python3 -m venv /ado-venv \
+&& source /ado-venv/bin/activate \
+&& pip install wheel \
+&& pip install ansible==5.2.0 foodx-devops-tools==0.12.1 \
 # Install .NETCore runtime dependency for the agent
 # See details of this here: https://github.com/dotnet/core/issues/4360#issuecomment-618784475
 && LIBICU_FILE="libicu66_66.1-2ubuntu2_amd64.deb" \
