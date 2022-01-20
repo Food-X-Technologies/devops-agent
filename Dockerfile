@@ -19,15 +19,17 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libunwind8 \
     lsb-release \
     netcat \
-    nodejs=10.19.\* \
-    npm=6.14.\* \
     python3 \
     python3-pip \
     python3-venv \
     software-properties-common \
     tzdata \
     zip \
-# EGMS deployments use Ansible Vault
+    unzip \
+# Install NodeJS 16.x and NPM 8.x
+&& curl -fsSL https://deb.nodesource.com/setup_16.x | bash - \
+&& apt-get install -y nodejs=16.\* \
+# EGMS deployments Ansible Vault
 && pip install ansible==5.0.0 \
 # Install .NETCore runtime dependency for the agent
 # See details of this here: https://github.com/dotnet/core/issues/4360#issuecomment-618784475
@@ -38,10 +40,11 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 && apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 3FA7E0328081BFF6A14DA29AA6A19B38D3D831EF \
 && apt-add-repository 'deb https://download.mono-project.com/repo/ubuntu stable-focal main' \
 && apt-get install -y --no-install-recommends mono-complete=6.12.\* \
-# Install .NET 5 and 3.1
+# Install .NET 5, 6 and 3.1
 && curl -fsSLo packages-microsoft-prod.deb https://packages.microsoft.com/config/ubuntu/20.04/packages-microsoft-prod.deb \
 && dpkg -i packages-microsoft-prod.deb \
 && apt-get update \
+&& apt-get install -y dotnet-sdk-6.0 \
 && apt-get install -y dotnet-sdk-5.0 \
 && apt-get install -y dotnet-sdk-3.1 \
 && rm packages-microsoft-prod.deb \
