@@ -30,7 +30,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 && curl -fsSL https://deb.nodesource.com/setup_16.x | bash - \
 && apt-get install -y nodejs=16.\* \
 # EGMS deployments Ansible Vault
-&& pip install ansible==5.0.0 \
+&& pip install ansible==5.2.0 \
 # Install .NETCore runtime dependency for the agent
 # See details of this here: https://github.com/dotnet/core/issues/4360#issuecomment-618784475
 && LIBICU_FILE="libicu66_66.1-2ubuntu2_amd64.deb" \
