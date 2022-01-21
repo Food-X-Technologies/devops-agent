@@ -33,6 +33,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 && python3 -m venv /ado-venv \
 # Make this the default venv for root
 && echo "source /ado-venv/bin/activate" >> ~root/.bashrc \
+&& . /ado-venv/bin/activate \
 && pip install wheel \
 && pip install ansible==5.2.0 foodx-devops-tools==0.12.1 \
 # Install .NETCore runtime dependency for the agent
