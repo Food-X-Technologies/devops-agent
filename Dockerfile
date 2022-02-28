@@ -22,6 +22,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libunwind8 \
     lsb-release \
     netcat \
+    openjdk-11-jre-headless=11.0.13\* \
     python3 \
     python3-pip \
     python3-venv \
@@ -29,8 +30,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     tzdata \
     zip \
     unzip \
-# Install OpenJDK 11
-&& apt-get update && apt install -y --no-install-recommends openjdk-11-jre-headless=11.0.13\* \
 # Install NodeJS 16.x and NPM 8.x
 && curl -fsSL https://deb.nodesource.com/setup_16.x | bash - \
 && apt-get install -y nodejs=16.\* \
