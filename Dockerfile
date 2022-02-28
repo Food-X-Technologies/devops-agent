@@ -84,7 +84,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
 && apt-get install wget apt-transport-https gnupg lsb-release \
 && wget -qO - https://aquasecurity.github.io/trivy-repo/deb/public.key | apt-key add - \
 && echo deb https://aquasecurity.github.io/trivy-repo/deb $(lsb_release -sc) main | tee -a /etc/apt/sources.list.d/trivy.list \
-&& apt-get update && apt-get install trivy=0.22.\* \
+&& apt-get update && apt-get install trivy=0.24.\* \
 # Give Vault the ability to use the mlock syscall without running the process as root. The mlock syscall prevents memory from being swapped to disk.
 # Explanation: https://github.com/hashicorp/vault/issues/10048#issuecomment-700779263
 && setcap cap_ipc_lock= /usr/bin/vault \
