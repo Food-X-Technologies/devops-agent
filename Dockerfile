@@ -16,7 +16,6 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     git \
     gnupg \
     iputils-ping \
-    openjdk-11-jre-headless=11.0.13\* \
     jq \
     libcurl4 \
     libssl1.0 \
@@ -30,6 +29,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     tzdata \
     zip \
     unzip \
+# Install OpenJDK 11
+&& apt-get update && apt install -y --no-install-recommends openjdk-11-jre-headless=11.0.13\* \
 # Install NodeJS 16.x and NPM 8.x
 && curl -fsSL https://deb.nodesource.com/setup_16.x | bash - \
 && apt-get install -y nodejs=16.\* \
