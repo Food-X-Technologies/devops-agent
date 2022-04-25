@@ -20,6 +20,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libcurl4 \
     libssl1.0 \
     libunwind8 \
+    libxss1 \
     lsb-release \
     netcat \
     openjdk-11-jre-headless=11.0.13\* \
