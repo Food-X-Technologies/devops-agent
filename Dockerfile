@@ -23,7 +23,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libxss1 \
     lsb-release \
     netcat \
-    openjdk-11-jre-headless=11.0.13\* \
+    openjdk-11-jre-headless=11.0.14\* \
     python3 \
     python3-pip \
     python3-venv \
